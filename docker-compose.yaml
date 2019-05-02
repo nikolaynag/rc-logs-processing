@@ -1,0 +1,19 @@
+influxdb:
+  image: influxdb:alpine
+  container_name: influxdb
+  ports:
+    - "8086:8086"
+  user: "1000"
+  volumes:
+    - /home/nmn/personal/life/RC/LOGS/grafana/influx-data:/var/lib/influxdb
+
+grafana:
+  image: grafana/grafana:latest
+  container_name: grafana
+  ports:
+    - "3000:3000"
+  user: "1000"
+  links:
+    - influxdb
+  volumes:
+    - /home/nmn/personal/life/RC/LOGS/grafana/grafana-data:/var/lib/grafana
