@@ -5,7 +5,7 @@ influxdb:
     - "8086:8086"
   user: "1000"
   volumes:
-    - /home/nmn/personal/life/RC/LOGS/grafana/influx-data:/var/lib/influxdb
+    - ${WORKDIR}/influx-data:/var/lib/influxdb
 
 grafana:
   image: grafana/grafana:latest
@@ -16,4 +16,4 @@ grafana:
   links:
     - influxdb
   volumes:
-    - /home/nmn/personal/life/RC/LOGS/grafana/grafana-data:/var/lib/grafana
+    - ${WORKDIR}/grafana-data:/var/lib/grafana
