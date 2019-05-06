@@ -79,7 +79,7 @@ def main():
         "--batch-cnt",
         help="Number of points to send to influx "
              "in one batch (default %(default)s)",
-        default=100,
+        default=500,
         type=int,
     )
     parser.add_argument(
@@ -94,7 +94,7 @@ def main():
         help="Input CSV file",
     )
     args = parser.parse_args()
-
+    total = 0
     points = []
     for row in read_objects_from_csv(args.input_file):
         tsFormat = "%Y-%m-%d %H:%M:%S.%f"
@@ -113,7 +113,12 @@ def main():
         ))
         if len(points) >= args.batch_cnt:
             send_points(args, points)
-            sys.stderr.write("Uploaded {} points\n".format(len(points)))
+            total += len(points)
+            sys.stderr.write(
+                "Uploaded {} points, total {} points\n".format(
+                    len(points), total
+                )
+            )
             points.clear()
     send_points(args, points)
     sys.stderr.write("Uploaded {} points\n".format(len(points)))
